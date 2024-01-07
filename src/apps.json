@@ -1,0 +1,83 @@
+[
+    {
+      "title": "Youtube",
+      "source": "https://youtube.com",
+      "icon": "/assets/youtube.png",
+      "desc": "A viral video app",
+      "type": "default",
+      "id": "1"
+    },
+    {
+      "title": "invidious",
+      "source": "https://vid.puffyan.us",
+      "icon": "/assets/invidious.png",
+      "desc": "Faster Youtube alternative",
+      "type": "default",
+      "id": "2"
+    },
+    {
+      "title": "Spotify",
+      "source": "https://open.spotify.com/",
+      "icon": "/assets/Spotify.png",
+      "desc": "Listen to all the viral hit music ",
+      "type": "default",
+      "id": "3"
+    },
+    {
+      "title": "Discord",
+      "source": "https://discord.com",
+      "icon": "/assets/discord.svg",
+      "desc": "A popular social platform for chatting",
+      "type": "default",
+      "id": "4"
+    },
+    {
+      "title": "Reddit",
+      "source": "https://reddit.com",
+      "icon": "/assets/reddit.png",
+      "desc": "Voice your mind in various communities ",
+      "type": "default",
+      "id": "6"
+    },
+    {
+      "title": "Mathway",
+      "source": "https://www.mathway.com",
+      "icon": "/assets/Mathway.png",
+      "desc": "Your #1 digital helper for math",
+      "type": "default",
+      "id": "7"
+    },
+    {
+      "title": "Goku.sx",
+      "source": "https://goku.sx/",
+      "icon": "/assets/goku.png",
+      "desc": "Watch movies and shows for free",
+      "type": "default",
+      "id": "8"
+    },
+    {
+      "title": "Aniwatch.to",
+      "source": "https://aniwatch.to",
+      "icon": "/assets/aniwatch.png",
+      "desc": "watch anime for free",
+      "type": "default",
+      "id": "9"
+    },
+    {
+      "title": "Aniwave.to",
+      "source": "https://aniwave.to",
+      "icon": "/assets/aniwave.png",
+      "desc": "watch anime for free with a beautiful UI ", 
+      "type": "default",
+      "id": "10"
+    },
+    {
+      "title": "Phantom Games",
+      "source": "https://phantom.delusionz.xyz/",
+      "icon": "/assets/phantom.png",
+      "desc": "The best game platform to play all the classics",
+      "type": "default",
+      "id": "11"
+    }
+  ]
+  
