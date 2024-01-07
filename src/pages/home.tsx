@@ -52,7 +52,11 @@ const Home = () => {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   value={searchTerm}
                   onFocus={() => setShowSuggestions(true)}
-                  onBlur={() => setShowSuggestions(false)}
+                  onBlur={() => {
+                    setTimeout(() => {
+                      setShowSuggestions(false);
+                    }, 100);
+                  }}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       proxiedStore.setIsProxied(true);
@@ -63,15 +67,25 @@ const Home = () => {
                   }}
                 />
                 {showSuggestions && suggestions.length > 0 && (
-                  <div className=" bg-transparent border border-primary/60 rounded-md">
-                    {suggestions.map((suggestion: Suggestion) => (
-                      <div
-                        key={suggestion.phrase}
-                        className="flex space-x-2 text-gray-200 p-2 hover:bg-secondary cursor-pointer transition-all border border-secondary/35"
-                      >
-                        <span>{suggestion.phrase}</span>
-                      </div>
-                    ))}
+                  <div className="flex flex-col border border-primary/60 rounded-md">
+                    {suggestions.map(
+                      (suggestion: Suggestion, index: number) => {
+                        return (
+                          <button
+                            key={index}
+                            className="flex space-x-2 text-gray-200 p-2 hover:bg-secondary/30 cursor-pointer transition-all border border-secondary/35"
+                            onClick={() => {
+                              proxiedStore.setIsProxied(true);
+                              proxiedStore.setProxyString(
+                                ProxySearch(settings.search, suggestion.phrase)
+                              );
+                            }}
+                          >
+                            <span>{suggestion.phrase}</span>
+                          </button>
+                        );
+                      }
+                    )}
                   </div>
                 )}
               </div>
