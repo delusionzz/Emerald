@@ -1,30 +1,18 @@
-# React + TypeScript + Vite
+# Emerald v5
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> The 5th iteration of the emearld proxy
 
-Currently, two official plugins are available:
+## Installation
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- `git clone https://github.com/delusionzz/Emerald.git`
+- `cd Emerald`
+- `pnpm install` or the package manager of your choice
+- `pnpm build` build the project
+- `pnpm preview` to run the project on port 4173
 
-## Expanding the ESLint configuration
+Note You need to also run the bare server on whatever port you want just make sure to edit `vite.config.ts` so that the `bare` port is changed to your port
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Credit
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- [IllusionTBA](https://github.com/illusionTBA) Founder
+- Special thanks to [MotorTruck1221](https://github.com/MotorTruck1221) for the bare switcher code
