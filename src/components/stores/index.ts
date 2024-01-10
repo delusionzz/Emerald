@@ -1,6 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import {  persist } from "zustand/middleware";
+// import {createStore} from "idb-keyval"
+// const customStore = createStore('Emerald_DB', 'Emerald_Store');
+
 
 interface SettingsState {
     proxy: "uv";
@@ -42,3 +46,57 @@ export const useProxiedStore = create<{
   proxyString: "",
   setProxyString: (str) => set(() => ({ proxyString: str })),
 }));
+
+
+// type IDBStore = {
+//   bare: string,
+//   setBare: (str: string) => void;
+// }
+
+// export const useIDBStore = create<IDBStore>()(
+//   persist(
+//     (set, get) => ({
+//       bare: "",
+//       setBare: (str) => set(() => ({ bare: str })),
+//     }),
+//     {
+//       name: 'Emerald_Storage_01', // unique name
+//       storage: createJSONStorage(() => storage),
+//     },
+//   ),
+// )
+
+// export const useBoundStore = create<{
+//   bears: number;
+//   addABear: () => void;
+// }>()(
+//   persist(
+//     (set, get) => ({
+//       bears: 0,
+//       addABear: () => set({ bears: get().bears + 1 }),
+//     }),
+//     {
+//       name: 'food-storage', // unique name
+//       storage: createJSONStorage(() => storage),
+//     },
+//   ),
+// )
+
+
+
+
+// const storage: StateStorage = {
+//   getItem: async (name: string): Promise<string | null> => {
+//     console.log(name, "has been retrieved");
+//     const value = await get(name, customStore);
+//     return value ?? null;
+//   },
+//   setItem: async (name: string, value: string): Promise<void> => {
+//     console.log(name, "with value", value, "has been saved");
+//     await set(name, value, customStore);
+//   },
+//   removeItem: async (name: string): Promise<void> => {
+//     console.log(name, "has been deleted");
+//     await del(name, customStore);
+//   },
+// }

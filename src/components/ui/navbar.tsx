@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Cog } from "lucide-react";
 import {
   Tooltip,
@@ -36,19 +37,27 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { toast } from "sonner";
 
 import { Separator } from "@/components/ui/separator";
 import { useProxiedStore, useSettingsStore } from "@/components/stores";
+import { useIDB } from "../hooks";
 import { Input } from "./input";
 import { ProxySearch } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import apps from "@/apps.json";
 import { Button } from "./button";
 const Navbar = () => {
+  const idb = useIDB();
   const proxiedStore = useProxiedStore();
   const settingsStore = useSettingsStore();
+  // const idbStore = useIDBStore();
   const [value, setValue] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [bare, setBare] = useState("");
+  // const handleBare = () => {};
+  // console.log(idbStore.bare);
+
   useEffect(() => {
     window.document.title =
       settingsStore.title.length > 0 ? settingsStore.title : "Emerald";
@@ -61,6 +70,76 @@ const Navbar = () => {
           : "/emerald.png"
       );
   }, [settingsStore.title, settingsStore.icon]);
+
+  useEffect(() => {
+    (async () => {
+      const bare = await idb.get("bare");
+      if (!bare) {
+        await idb.set("bare", "/bare/");
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      setBare(((await idb.get("bare")) as string) ?? "");
+      console.log("SETTING BARE EFFECT", bare);
+    })();
+  }, []);
+
+  const handleBare = () => {
+    toast("Testing Bare connection", {
+      description: "Testing the bare server connection",
+    });
+    try {
+      (async () => {
+        const bareUrl = new URL(bare, location.href);
+        console.log("BARE URL", bareUrl.href);
+        const manifest = await fetch(`${bareUrl.href}`);
+        const mJson = await manifest.json();
+        if (!(mJson.versions as string[]).includes("v3")) {
+          return toast("Bare server connection failed", {
+            description:
+              "The bare manifest did not include v3 which is essential for this verson of ultraviolet to work",
+          });
+        }
+
+        const testGet = await fetch(`${bareUrl.href}v3/`, {
+          headers: {
+            "x-bare-url": "https://www.google.com",
+            "X-Bare-Headers": `{"Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"}`,
+          },
+        });
+        if (testGet.status === 200 || testGet.status === 302) {
+          console.log("SETTING BARE", bareUrl.href);
+          await idb.set("bare", bareUrl.href);
+
+          navigator.serviceWorker
+            .getRegistrations()
+            .then(function (registrations) {
+              for (const registration of registrations) {
+                registration.unregister();
+                console.log("Service Worker Unregistered");
+              }
+            });
+          location.reload();
+          toast("Bare server connection successful", {
+            description: "All checks passed. Your ready to use emerald",
+          });
+        } else {
+          toast("Bare server connection failed", {
+            description: "The bare server did not respond as expected",
+          });
+        }
+      })();
+    } catch (error) {
+      if (error instanceof Error) {
+        toast("Bare server connection failed", {
+          description: `Please check your Bare server address. Error: ${error.name}`,
+        });
+      }
+    }
+  };
 
   return (
     <header
@@ -100,9 +179,12 @@ const Navbar = () => {
                     </SheetDescription>
                   </SheetHeader>
                   <div className="flex flex-wrap ">
-                    {apps.map((app) => {
+                    {apps.map((app, i: number) => {
                       return (
-                        <Card className="max-w-[20rem] m-2 p-2 border-none w-full">
+                        <Card
+                          className="max-w-[20rem] m-2 p-2 border-none w-full"
+                          key={i}
+                        >
                           <div className="flex items-center justify-between">
                             <CardHeader>
                               <CardTitle>{app.title}</CardTitle>
@@ -238,6 +320,32 @@ const Navbar = () => {
                         placeholder="Page Icon (eg https://google.com)"
                         value={settingsStore.icon}
                         onChange={(e) => settingsStore.setIcon(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <Separator />
+                  {/* settings for bare */}
+                  <div className="flex flex-col space-y-2">
+                    <h1 className="text-card-foreground text-2xl">Misc.</h1>
+                    <div className="flex items-center justify-between">
+                      <h2 className="text-card-foreground">Bare</h2>
+                      <Input
+                        className="max-w-[20rem] text-card-foreground placeholder:text-card-foreground/55"
+                        placeholder="Change bare server"
+                        value={bare}
+                        onChange={(e) => setBare(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            if (
+                              (e.target as HTMLInputElement).value.length > 0
+                            ) {
+                              setBare("/bare/");
+                            } else {
+                              setBare((e.target as HTMLInputElement).value);
+                            }
+                            handleBare();
+                          }
+                        }}
                       />
                     </div>
                   </div>

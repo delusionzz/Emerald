@@ -11,7 +11,7 @@ export default function App() {
   useSw("/sw.js", "/~/");
   const settingsStore = useSettingsStore();
   useEffect(() => {
-    console.log(window.location === window.parent.location);
+    // console.log(window.location === window.parent.location);
     if (
       settingsStore.cloak === "aboutBlank" &&
       window.location === window.parent.location

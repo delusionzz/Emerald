@@ -1,4 +1,5 @@
 import useSw from "./useSw";
 import { useMediaQuery } from "./useMediaQuery";
 import { useDocumentTitle } from "./useDocumentTitle";
-export { useSw, useMediaQuery, useDocumentTitle }
+import useIDB from "./useIDB";
+export { useSw, useMediaQuery, useDocumentTitle, useIDB }
