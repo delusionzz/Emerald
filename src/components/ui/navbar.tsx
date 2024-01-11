@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Cog } from "lucide-react";
+import { Cog, Trash2 } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -10,6 +10,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -37,10 +38,21 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu";
+import { nanoid } from "nanoid";
 import { toast } from "sonner";
 
 import { Separator } from "@/components/ui/separator";
-import { useProxiedStore, useSettingsStore } from "@/components/stores";
+import {
+  useAppStore,
+  useProxiedStore,
+  useSettingsStore,
+} from "@/components/stores";
 import { useIDB } from "../hooks";
 import { Input } from "./input";
 import { ProxySearch } from "@/lib/utils";
@@ -51,9 +63,14 @@ const Navbar = () => {
   const idb = useIDB();
   const proxiedStore = useProxiedStore();
   const settingsStore = useSettingsStore();
+  const appStore = useAppStore();
+  const [appName, setAppName] = useState("");
+  const [appDescription, setAppDescription] = useState("");
+  const [appUrl, setAppUrl] = useState("");
   // const idbStore = useIDBStore();
   const [value, setValue] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [creatingApp, setCreatingApp] = useState(false);
   const [bare, setBare] = useState("");
   // const handleBare = () => {};
   // console.log(idbStore.bare);
@@ -141,6 +158,33 @@ const Navbar = () => {
     }
   };
 
+  const handleCreateApp = () => {
+    if (appName.length === 0) {
+      return toast("App name to short", {
+        description:
+          "The app name you provided is to short or no name was provided, please try again",
+      });
+    }
+    if (appUrl.length === 0) {
+      return toast("App URL to short", {
+        description:
+          "The app URL you provided is to short or no URL was provided, please try again",
+      });
+    }
+
+    appStore.addApp({
+      title: appName,
+      description: appDescription,
+      url: appUrl,
+      id: nanoid(),
+    });
+
+    setCreatingApp(false);
+    toast("App created", {
+      description: "The app was created successfully",
+    });
+  };
+
   return (
     <header
       className={`${
@@ -173,53 +217,121 @@ const Navbar = () => {
                     <SheetTitle>
                       <h1 className="text-3xl">Apps</h1>
                     </SheetTitle>
-                    <SheetDescription>
+                    <SheetDescription className="text-center">
                       A collection of apps that allow quick access to certain
-                      sites
+                      sites <br />{" "}
+                      <span className="text-primary">
+                        Right-Click anywhere to make a custom app
+                      </span>{" "}
+                      or click the trash can button to{" "}
+                      <span className="text-destructive">Delete</span> a custom
+                      app
                     </SheetDescription>
                   </SheetHeader>
-                  <div className="flex flex-wrap ">
-                    {apps.map((app, i: number) => {
-                      return (
-                        <Card
-                          className="max-w-[20rem] m-2 p-2 border-none w-full"
-                          key={i}
-                        >
-                          <div className="flex items-center justify-between">
-                            <CardHeader>
-                              <CardTitle>{app.title}</CardTitle>
-                              <CardDescription className="flex flex-wrap">
-                                {app.desc}
-                              </CardDescription>
-                            </CardHeader>
-                            <div className="flex flex-col">
-                              <CardContent>
-                                <img
-                                  src={app.icon}
-                                  className="h-24 w-52 object-contain"
-                                />
-                              </CardContent>
-                              <Button
-                                className="text-card shadow-lg hover:shadow-primary-foreground transition-all max-w-full w-full"
-                                onClick={() => {
-                                  setIsOpen(false);
-                                  proxiedStore.setIsProxied(true);
-                                  proxiedStore.setProxyString(
-                                    ProxySearch(
-                                      settingsStore.search,
-                                      app.source
-                                    )
-                                  );
-                                }}
-                              >
-                                Go to site
-                              </Button>
-                            </div>
-                          </div>
-                        </Card>
-                      );
-                    })}
-                  </div>
+                  <ContextMenu>
+                    <ContextMenuTrigger>
+                      <div className="flex flex-wrap ">
+                        {apps.map((app, i: number) => {
+                          return (
+                            <Card
+                              className="max-w-[20rem] m-2 p-2 border-none w-full"
+                              key={i}
+                            >
+                              <div className="flex items-center justify-between">
+                                <CardHeader>
+                                  <CardTitle>{app.title}</CardTitle>
+                                  <CardDescription className="flex flex-wrap">
+                                    {app.desc}
+                                  </CardDescription>
+                                </CardHeader>
+                                <div className="flex flex-col">
+                                  <CardContent>
+                                    <img
+                                      src={app.icon}
+                                      className="h-24 w-52 object-contain"
+                                    />
+                                  </CardContent>
+                                  <Button
+                                    className="text-card shadow-lg hover:shadow-primary-foreground transition-all max-w-full w-full"
+                                    onClick={() => {
+                                      setIsOpen(false);
+                                      proxiedStore.setIsProxied(true);
+                                      proxiedStore.setProxyString(
+                                        ProxySearch(
+                                          settingsStore.search,
+                                          app.source
+                                        )
+                                      );
+                                    }}
+                                  >
+                                    Go to site
+                                  </Button>
+                                </div>
+                              </div>
+                            </Card>
+                          );
+                        })}
+                        {/* custom apps */}
+                        {appStore.apps.map((app, i) => {
+                          return (
+                            <Card
+                              className="max-w-[20rem] m-2 p-2 border-none w-full"
+                              key={i}
+                            >
+                              <div className="flex items-center justify-between">
+                                <CardHeader className="space-y-4">
+                                  <div className="flex flex-col">
+                                    <CardTitle>{app.title}</CardTitle>
+                                    <CardDescription className="flex flex-wrap">
+                                      {app.description}
+                                    </CardDescription>
+                                  </div>
+                                  <Button
+                                    variant={"ghost"}
+                                    className="max-w-[3rem] "
+                                    onClick={() => {
+                                      appStore.removeApp(app.id);
+                                    }}
+                                  >
+                                    <Trash2 className="w-5 h-5" />
+                                  </Button>
+                                </CardHeader>
+                                <div className="flex flex-col">
+                                  <CardContent>
+                                    <img
+                                      src={`https://www.google.com/s2/favicons?domain=${app.url}&sz=128`}
+                                      className="h-24 w-52 object-contain"
+                                    />
+                                  </CardContent>
+                                  <Button
+                                    className="text-card shadow-lg hover:shadow-primary-foreground transition-all max-w-full w-full"
+                                    onClick={() => {
+                                      setIsOpen(false);
+                                      proxiedStore.setIsProxied(true);
+                                      proxiedStore.setProxyString(
+                                        ProxySearch(
+                                          settingsStore.search,
+                                          app.url
+                                        )
+                                      );
+                                    }}
+                                  >
+                                    Go to site
+                                  </Button>
+                                </div>
+                              </div>
+                            </Card>
+                          );
+                        })}
+                      </div>
+                    </ContextMenuTrigger>
+
+                    <ContextMenuContent className="border-none">
+                      <ContextMenuItem onClick={() => setCreatingApp(true)}>
+                        <button>Create new app</button>
+                      </ContextMenuItem>
+                    </ContextMenuContent>
+                  </ContextMenu>
                 </div>
               </SheetContent>
             </Sheet>
@@ -355,6 +467,54 @@ const Navbar = () => {
           </Dialog>
         </div>
       </div>
+      {/* creating app dialog */}
+      <Dialog open={creatingApp} onOpenChange={(bool) => setCreatingApp(bool)}>
+        <DialogContent className="border-none">
+          <div className="flex flex-col space-y-4">
+            <DialogHeader>
+              <DialogTitle className="text-card-foreground">
+                Create an app
+              </DialogTitle>
+              <DialogDescription>
+                Create a custom app by filling out the following fields
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="flex space-x-4 items-center justify-between">
+              <span className="text-card-foreground">App title</span>
+              <Input
+                placeholder="App name"
+                className="max-w-sm text-card-foreground/85 "
+                value={appName}
+                onChange={(e) => setAppName(e.target.value)}
+              />
+            </div>
+            <div className="flex space-x-4 items-center justify-between">
+              <span className="text-card-foreground">App description</span>
+              <Input
+                placeholder="A short description of the app (optional)"
+                className="max-w-sm text-card-foreground/85"
+                value={appDescription}
+                onChange={(e) => setAppDescription(e.target.value)}
+              />
+            </div>
+            <div className="flex space-x-4 items-center justify-between">
+              <span className="text-card-foreground">App Url</span>
+              <Input
+                placeholder="direct url to the website. e.g https://google.com"
+                className="max-w-sm text-card-foreground/85"
+                value={appUrl}
+                onChange={(e) => setAppUrl(e.target.value)}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button type="submit" onClick={handleCreateApp}>
+              Save changes
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </header>
   );
 };

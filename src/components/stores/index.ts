@@ -47,6 +47,34 @@ export const useProxiedStore = create<{
   setProxyString: (str) => set(() => ({ proxyString: str })),
 }));
 
+type App = {
+  title: string,
+  description: string,
+  url: string,
+  id: string
+}
+
+
+
+export const useAppStore = create<{
+  apps: App[],
+  addApp: (app: App) => void,
+  removeApp: (id: string) => void,
+}>()(
+  persist(
+    (set, get) => ({
+      apps: [],
+      addApp: (app) => set(() => ({ apps: [...get().apps, app] })),
+      removeApp: (id) => set(() => ({ apps: get().apps.filter((app) => app.id !== id) })),
+    }),
+    {
+      name: "appStore", 
+    }
+  )
+);
+
+
+
 
 // type IDBStore = {
 //   bare: string,
