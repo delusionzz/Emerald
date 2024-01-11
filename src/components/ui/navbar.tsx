@@ -280,44 +280,46 @@ const Navbar = () => {
                             >
                               <div className="flex items-center justify-between">
                                 <CardHeader className="space-y-4">
-                                  <div className="flex flex-col">
+                                  <div className="flex flex-col space-y-2">
                                     <CardTitle>{app.title}</CardTitle>
                                     <CardDescription className="flex flex-wrap">
                                       {app.description}
                                     </CardDescription>
                                   </div>
-                                  <Button
-                                    variant={"ghost"}
-                                    className="max-w-[3rem] "
-                                    onClick={() => {
-                                      appStore.removeApp(app.id);
-                                    }}
-                                  >
-                                    <Trash2 className="w-5 h-5" />
-                                  </Button>
                                 </CardHeader>
                                 <div className="flex flex-col">
                                   <CardContent>
                                     <img
                                       src={`https://www.google.com/s2/favicons?domain=${app.url}&sz=128`}
-                                      className="h-24 w-52 object-contain"
+                                      className="h-24 w-52 object-contain rounded-full"
                                     />
                                   </CardContent>
-                                  <Button
-                                    className="text-card shadow-lg hover:shadow-primary-foreground transition-all max-w-full w-full"
-                                    onClick={() => {
-                                      setIsOpen(false);
-                                      proxiedStore.setIsProxied(true);
-                                      proxiedStore.setProxyString(
-                                        ProxySearch(
-                                          settingsStore.search,
-                                          app.url
-                                        )
-                                      );
-                                    }}
-                                  >
-                                    Go to site
-                                  </Button>
+                                  <div className="flex space-x-">
+                                    <Button
+                                      variant={"ghost"}
+                                      className="max-w-[3rem] "
+                                      onClick={() => {
+                                        appStore.removeApp(app.id);
+                                      }}
+                                    >
+                                      <Trash2 className="w-5 h-5" />
+                                    </Button>
+                                    <Button
+                                      className="text-card shadow-lg hover:shadow-primary-foreground transition-all max-w-full w-full"
+                                      onClick={() => {
+                                        setIsOpen(false);
+                                        proxiedStore.setIsProxied(true);
+                                        proxiedStore.setProxyString(
+                                          ProxySearch(
+                                            settingsStore.search,
+                                            app.url
+                                          )
+                                        );
+                                      }}
+                                    >
+                                      Go to site
+                                    </Button>
+                                  </div>
                                 </div>
                               </div>
                             </Card>
