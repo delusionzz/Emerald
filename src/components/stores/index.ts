@@ -12,9 +12,13 @@ interface SettingsState {
     cloak: "none" | "aboutBlank";
     title: string;
     icon: string;
+    panicLink: string;
+    panicKey: string;
     setCloak: (str: "none" | "aboutBlank") => void;
     setTitle: (str: string) => void;
     setIcon: (str: string) => void;
+    setPLink: (str: string) => void;
+    setPKey: (str: string) => void;
 }
 
 export const useSettingsStore = create<SettingsState>()(
@@ -25,9 +29,13 @@ export const useSettingsStore = create<SettingsState>()(
         cloak: "none",
         title: "Emerald",
         icon: "/emerald.png",
+        panicLink: "https://classroom.google.com",
+        panicKey: "`",
         setTitle: (str) => set(() => ({ title: str })),
         setIcon: (str) => set(() => ({ icon: str })),
         setCloak: (str) => set(() => ({ cloak: str })),
+        setPLink: (str) => set(() => ({ panicLink: str})),
+        setPKey: (str) => set(() => ({ panicKey: str })),
     }),
     {
       name: "settings", // name of item in the storage (must be unique)

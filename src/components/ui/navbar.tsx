@@ -59,6 +59,8 @@ import { ProxySearch } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import apps from "@/apps.json";
 import { Button } from "./button";
+
+
 const Navbar = () => {
   const idb = useIDB();
   const proxiedStore = useProxiedStore();
@@ -74,6 +76,15 @@ const Navbar = () => {
   const [bare, setBare] = useState("");
   // const handleBare = () => {};
   // console.log(idbStore.bare);
+  
+  document.addEventListener('keydown', e => {
+    console.log("key")
+    if(e.key == settingsStore.panicKey) {
+        console.log("panic key")
+        window.location.href = settingsStore.panicLink;
+    }
+  });
+  
 
   useEffect(() => {
     window.document.title =
@@ -345,6 +356,12 @@ const Navbar = () => {
             >
               Discord
             </a>
+            <a 
+            href={settingsStore.panicLink}
+            className="transition-colors hover:text-foreground/80 text-foreground/60"
+            >
+              Panic
+            </a>
           </nav>
         </div>
         <div className="flex flex-1 items-center justify-between space-x-4 md:justify-end">
@@ -438,6 +455,28 @@ const Navbar = () => {
                     </div>
                   </div>
                   <Separator />
+                    <div className="flex flex-col spac-y-2">
+                      <h1 className="text-card-foreground text-2xl">Panic Settings</h1>
+                      <div className="flex items-center justify-between">
+                        <h2 className="text-card-foreground">Panic Link</h2>
+                        <Input
+                          className="max-w-[20rem] text-card-foreground placeholder:text-card-foreground/55"
+                          placeholder="example.com"
+                          value={settingsStore.panicLink}
+                          onChange={(e) => settingsStore.setPLink(e.target.value)}
+                        />
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <h2 className="text-card-foreground">Panic Key</h2>
+                        <Input
+                          className="max-w-[20rem] text-card-foreground placeholder:text-card-foreground/55"
+                          placeholder="example.com"
+                          value={settingsStore.panicKey}
+                          onChange={(e) => settingsStore.setPKey(e.target.value)}
+                        />
+                      </div>
+                    </div>
+                  <Separator />
                   {/* settings for bare */}
                   <div className="flex flex-col space-y-2">
                     <h1 className="text-card-foreground text-2xl">Misc.</h1>
@@ -520,5 +559,7 @@ const Navbar = () => {
     </header>
   );
 };
+
+
 
 export default Navbar;
