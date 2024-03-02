@@ -455,7 +455,7 @@ const Navbar = () => {
                     </div>
                   </div>
                   <Separator />
-                    <div className="flex flex-col spac-y-2">
+                    <div className="flex flex-col space-y-2">
                       <h1 className="text-card-foreground text-2xl">Panic Settings</h1>
                       <div className="flex items-center justify-between">
                         <h2 className="text-card-foreground">Panic Link</h2>
