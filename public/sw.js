@@ -4,7 +4,7 @@ importScripts("/uv/uv.bundle.js");
 importScripts("/uv/uv.config.js");
 importScripts("/uv/uv.sw.js");
 importScripts("/localforage/localforage.min.js");
-
+importScripts("/libcurl/index.js");
 // Credit to MotorTruck1221 <@818995901791207454> for the bare switcher code
 
 localforage.config({
@@ -17,10 +17,6 @@ localforage.config({
 
 const uvPromise = new Promise(async (resolve) => {
   try {
-    const bare =
-      (await localforage.getItem("bare")) || location.origin + "/bare/";
-
-    self.__uv$config.bare = bare;
     self.uv = new UVServiceWorker(self.__uv$config);
   } catch (error) {
     console.log(error);

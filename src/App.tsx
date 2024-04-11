@@ -6,10 +6,29 @@ import { useSettingsStore } from "./components/stores";
 import { useSw } from "@/components/hooks";
 import Navbar from "./components/ui/navbar";
 import Home from "./pages/home";
+import Games from "./pages/games";
 import { useEffect } from "react";
+// @ts-expect-error no types
+import { SetTransport } from "@mercuryworkshop/bare-mux";
 export default function App() {
   useSw("/sw.js", "/~/");
+
   const settingsStore = useSettingsStore();
+
+  useEffect(() => {
+    if (typeof window != "undefined") {
+      setTimeout(() => {
+        SetTransport("CurlMod.LibcurlClient", {
+          wisp: `${location.port == "443" ? "wss://" : "ws://"}${
+            location.host
+          }/w/`,
+          wasm: "/cdn/files/libcurl.wasm",
+        });
+        console.log("Set transport");
+      });
+    }
+  }, []);
+
   useEffect(() => {
     // console.log(window.location === window.parent.location);
     if (
@@ -28,6 +47,7 @@ export default function App() {
     <>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/games" element={<Games />} />
         <Route path="*" element={<NoMatch />} />
       </Routes>
       <Toaster />

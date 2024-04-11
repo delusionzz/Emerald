@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import { viteStaticCopy } from "vite-plugin-static-copy";
+// @ts-expect-error no types
+import { libcurlPath } from "@mercuryworkshop/libcurl-transport";
 import path from "path";
 const __dirname = path.resolve();
 // https://vitejs.dev/config/
@@ -16,7 +18,12 @@ export default defineConfig({
           ),
           dest: "localforage",
           overwrite: false
-        }
+        },
+        {
+          src: `${libcurlPath}/**/*`.replace(/\\/g, "/"),
+          dest: "libcurl",
+          overwrite: false
+        },
       ]
     })
   ],
@@ -27,11 +34,18 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/bare/": {
-        target: "http://localhost:3000",
-        rewrite: (path) => path.replace(/^\/bare/, ''),
+      "/w/": {
+        target: "http://localhost:8080",
+        rewrite: (path) => path.replace(/^\/wisp/, ''),
         ws: true
       },
+      "/cdn/": {
+        target: "https://cdn.delusionz.xyz",
+        rewrite: (path) => path.replace(/^\/cdn/, ''),
+        changeOrigin: true
+      }
     }
   }
 })
+
+
