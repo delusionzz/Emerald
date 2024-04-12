@@ -2,15 +2,7 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { createBareClient } from '@tomphttp/bare-client';
-import * as localForage from 'localforage';
 
-localForage.config({
-  driver: localForage.INDEXEDDB,
-  name: "Emerald",
-  version: 1.0,
-  storeName: "e_config",
-  description: "IDB config storage",
-});
 export type Suggestion = {
   phrase: string,
 }
@@ -20,7 +12,8 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 const DuckSuggest = async (input: string): Promise<Suggestion[]> => {
-  const bare = await localForage.getItem('bare')
+  //@ts-expect-error
+  const bare = await __uv$config.bare;
   const client = await createBareClient(`${bare}`);
 
   const res = await client.fetch(`https://duckduckgo.com/ac/?q=${input}&format=list`);

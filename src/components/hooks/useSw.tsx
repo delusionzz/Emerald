@@ -1,12 +1,19 @@
 import { useEffect } from "react";
+// @ts-expect-error no types
+import { SetTransport } from "@mercuryworkshop/bare-mux";
 
-const useSw = (path: string, scope: string) => {
+const useSw = (path: string) => {
   useEffect(() => {
     if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.ready.then(() => {
+        SetTransport("CurlMod.LibcurlClient", {
+          wisp: `${location.port == "443" ? "wss://" : "ws://"}${
+            location.host
+          }/w/`
+        });
+      })
       navigator.serviceWorker
-        .register(path, {
-          scope: scope,
-        })
+        .register(path)
         .then(
           function (registration) {
             console.log(
@@ -22,7 +29,7 @@ const useSw = (path: string, scope: string) => {
           }
         );
     }
-  }, [path, scope]);
+  }, [path]);
 };
 
 export default useSw;
