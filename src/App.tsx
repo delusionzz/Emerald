@@ -6,34 +6,14 @@ import { useSettingsStore } from "./components/stores";
 import { useSw } from "@/components/hooks";
 import Navbar from "./components/ui/navbar";
 import Home from "./pages/home";
-import Games from "./pages/games";
+//import Games from "./pages/games";
 import { useEffect } from "react";
-// @ts-expect-error no types
-import { SetTransport } from "@mercuryworkshop/bare-mux";
+
 export default function App() {
-  useSw("/sw.js", "/~/");
+  useSw("/sw.js");
   console.log("app");
   const settingsStore = useSettingsStore();
 
-  useEffect(() => {
-    if (typeof window != "undefined") {
-      // @ts-expect-error
-      window.SetTransport = SetTransport;
-      setTimeout(() => {
-        SetTransport("CurlMod.LibcurlClient", {
-          wisp: `${location.port == "443" ? "wss://" : "ws://"}${
-            location.host
-          }/w/`,
-          wasm: "/cdn/files/libcurl.wasm",
-        });
-        console.log(
-          `TRANSPORT SET TO: ${location.port == "443" ? "wss://" : "ws://"}${
-            location.host
-          }/w/`
-        );
-      });
-    }
-  }, []);
 
   useEffect(() => {
     // console.log(window.location === window.parent.location);
@@ -53,7 +33,7 @@ export default function App() {
     <>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/games" element={<Games />} />
+        {/* <Route path="/games" element={<Games />} /> */}
         <Route path="*" element={<NoMatch />} />
       </Routes>
       <Toaster />
