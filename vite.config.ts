@@ -35,8 +35,8 @@ export default defineConfig({
   server: {
     proxy: {
       "/w/": {
-        target: "http://localhost:8080",
-        rewrite: (path) => path.replace(/^\/wisp/, ''),
+        target: "http://localhost:4000/",
+        rewrite: (path) => path.replace(/^\/w/, ''),
         ws: true
       },
       "/cdn/": {

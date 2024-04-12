@@ -12,7 +12,7 @@ import { useEffect } from "react";
 import { SetTransport } from "@mercuryworkshop/bare-mux";
 export default function App() {
   useSw("/sw.js", "/~/");
-
+  console.log("app");
   const settingsStore = useSettingsStore();
 
   useEffect(() => {
@@ -24,7 +24,11 @@ export default function App() {
           }/w/`,
           wasm: "/cdn/files/libcurl.wasm",
         });
-        console.log("Set transport");
+        console.log(
+          `TRANSPORT SET TO: ${location.port == "443" ? "wss://" : "ws://"}${
+            location.host
+          }/w/`
+        );
       });
     }
   }, []);
