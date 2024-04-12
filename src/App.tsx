@@ -17,6 +17,8 @@ export default function App() {
 
   useEffect(() => {
     if (typeof window != "undefined") {
+      // @ts-expect-error
+      window.SetTransport = SetTransport;
       setTimeout(() => {
         SetTransport("CurlMod.LibcurlClient", {
           wisp: `${location.port == "443" ? "wss://" : "ws://"}${
