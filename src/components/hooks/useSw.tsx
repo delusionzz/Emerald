@@ -14,7 +14,7 @@ const useSw = (path: string) => {
         const connection = new BareMuxConnection("/baremux/worker.js")
         window.Connection = connection
         connection.setTransport(settingsStore.transport.path,[ {
-          wisp: `${location.port == "443" ? "wss://" : "ws://"}${
+          wisp: `${location.protocol.includes("https") ? "wss://" : "ws://"}${
             location.host
           }/w/`
         }]);
