@@ -1,16 +1,23 @@
 import { useEffect } from "react";
-// @ts-expect-error no types
-import { SetTransport } from "@mercuryworkshop/bare-mux";
+
+import { BareMuxConnection } from "@mercuryworkshop/bare-mux"
+import { useSettingsStore } from "../stores";
+declare global {
+  interface Window { Connection: BareMuxConnection }
+}
 
 const useSw = (path: string) => {
+  const settingsStore = useSettingsStore();
   useEffect(() => {
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.ready.then(() => {
-        SetTransport("CurlMod.LibcurlClient", {
+        const connection = new BareMuxConnection("/baremux/worker.js")
+        window.Connection = connection
+        connection.setTransport(settingsStore.transport.path,[ {
           wisp: `${location.port == "443" ? "wss://" : "ws://"}${
             location.host
           }/w/`
-        });
+        }]);
       })
       navigator.serviceWorker
         .register(path)

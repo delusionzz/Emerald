@@ -11,10 +11,15 @@ interface SettingsState {
     search: string;
     cloak: "none" | "aboutBlank";
     title: string;
+    transport: {
+      path: string;
+      name: string;
+    };
     icon: string;
     panicLink: string;
     panicKey: string;
     setCloak: (str: "none" | "aboutBlank") => void;
+    setTransport: (path: string, name: string) => void;
     setTitle: (str: string) => void;
     setIcon: (str: string) => void;
     setPLink: (str: string) => void;
@@ -28,10 +33,15 @@ export const useSettingsStore = create<SettingsState>()(
         search: "https://www.google.com/search?q=",
         cloak: "none",
         title: "Emerald",
+        transport: {
+          path: "/libcurl/index.mjs",
+          name: "libcurl",
+        },
         icon: "/emerald.png",
         panicLink: "https://classroom.google.com",
         panicKey: "`",
         setTitle: (str) => set(() => ({ title: str })),
+        setTransport: (path, name) => set(() => ({ transport: {name, path} })),
         setIcon: (str) => set(() => ({ icon: str })),
         setCloak: (str) => set(() => ({ cloak: str })),
         setPLink: (str) => set(() => ({ panicLink: str})),

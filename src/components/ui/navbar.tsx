@@ -404,9 +404,42 @@ const Navbar = () => {
                       </div>
                     </div>
                   <Separator />
-                  {/* settings for bare */}
+                  {/* settings for wisp */}
                   <div className="flex flex-col space-y-2">
                     <h1 className="text-card-foreground text-2xl">Misc.</h1>
+                    <div className="flex items-center justify-between">
+                      <h2 className="text-card-foreground">Transport</h2>
+                      <Select
+                        defaultValue={settingsStore.transport.name}
+                        onValueChange={(transport: "libcurl" | "epoxy") => {
+                          const newTransport = {
+                            name: transport,
+                            path: transport === "libcurl" ? "/libcurl/index.mjs" : "/epoxy/index.mjs",
+                          }
+                          window.Connection.setTransport(newTransport.path, [ {
+                            wisp: `${location.port == "443" ? "wss://" : "ws://"}${location.host}/w/`
+                          }])
+                          settingsStore.setTransport(newTransport.path, newTransport.name)
+
+                        }
+                        }
+                      >
+                        <SelectTrigger className="max-w-[20rem] text-card-foreground">
+                          <SelectValue className="placeholder:text-card-foreground/55 " />
+                        </SelectTrigger>
+                        <SelectContent className="text-card-foreground border-none">
+                          <SelectItem value="libcurl" className="cursor-pointer">
+                            Libcurl
+                          </SelectItem>
+                          <SelectItem
+                            value="epoxy"
+                            className="cursor-pointer"
+                          >
+                            Epoxy
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
                 </div>
               </div>
