@@ -5,13 +5,17 @@ import { Home as HomeIcon } from "lucide-react";
 import { useSettingsStore } from "./components/stores";
 import { useSw } from "@/components/hooks";
 import Navbar from "./components/ui/navbar";
-import Home from "./pages/home";
-import PluginPage from "./pages/plugins";
+// import Home from "./pages/home";
+// import PluginPage from "./pages/plugins";
 //import Games from "./pages/games";
-import { useEffect } from "react";
+import { useEffect, lazy } from "react";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Create from "./pages/create";
+// import Create from "./pages/create";
+
+const Home = lazy(() => import("./pages/home"));
+const PluginPage = lazy(() => import("./pages/plugins"));
+const Create = lazy(() => import("./pages/create"));
 
 export default function App() {
   useSw("/sw.js");
