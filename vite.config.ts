@@ -21,11 +21,11 @@ export default defineConfig({
           dest: "localforage",
           overwrite: false,
         },
-        // {
-        //   src: `${uvPath}/**/*`.replace(/\\/g, "/"),
-        //   dest: "uv",
-        //   overwrite: false,
-        // },
+        {
+          src: `${uvPath}/**/*`.replace(/\\/g, "/"),
+          dest: "uv",
+          overwrite: false,
+        },
         {
           src: `${baremuxPath}/**/*`.replace(/\\/g, "/"),
           dest: "baremux",
