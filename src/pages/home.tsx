@@ -26,6 +26,13 @@ const Home = () => {
 
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm]);
+  toast.success("Want more links? Join our discord server for BYOD links!", {
+    action: {
+      label: "Join Server",
+      onClick: () =>
+        window.open("https://discord.com/invite/n49tTqAuh3", "_blank"),
+    },
+  });
 
   return (
     <>

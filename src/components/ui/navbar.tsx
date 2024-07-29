@@ -59,7 +59,6 @@ import { useEffect, useState } from "react";
 import apps from "@/apps.json";
 import { Button } from "./button";
 
-
 const Navbar = () => {
   const proxiedStore = useProxiedStore();
   const settingsStore = useSettingsStore();
@@ -73,15 +72,14 @@ const Navbar = () => {
   const [creatingApp, setCreatingApp] = useState(false);
   // const handleBare = () => {};
   // console.log(idbStore.bare);
-  
-  document.addEventListener('keydown', e => {
-    console.log("key")
-    if(e.key == settingsStore.panicKey) {
-        console.log("panic key")
-        window.location.href = settingsStore.panicLink;
+
+  document.addEventListener("keydown", (e) => {
+    console.log("key");
+    if (e.key == settingsStore.panicKey) {
+      console.log("panic key");
+      window.location.href = settingsStore.panicLink;
     }
   });
-  
 
   useEffect(() => {
     window.document.title =
@@ -277,15 +275,15 @@ const Navbar = () => {
             </Sheet>
 
             <a
-              href="https://discord.gg/KGBHgamMgY"
+              href="https://discord.com/invite/n49tTqAuh3"
               target="_blank"
               className="transition-colors hover:text-foreground/80 text-foreground/60"
             >
               Discord
             </a>
-            <a 
-            href={settingsStore.panicLink}
-            className="transition-colors hover:text-foreground/80 text-foreground/60"
+            <a
+              href={settingsStore.panicLink}
+              className="transition-colors hover:text-foreground/80 text-foreground/60"
             >
               Panic
             </a>
@@ -382,27 +380,29 @@ const Navbar = () => {
                     </div>
                   </div>
                   <Separator />
-                    <div className="flex flex-col space-y-2">
-                      <h1 className="text-card-foreground text-2xl">Panic Settings</h1>
-                      <div className="flex items-center justify-between">
-                        <h2 className="text-card-foreground">Panic Link</h2>
-                        <Input
-                          className="max-w-[20rem] text-card-foreground placeholder:text-card-foreground/55"
-                          placeholder="example.com"
-                          value={settingsStore.panicLink}
-                          onChange={(e) => settingsStore.setPLink(e.target.value)}
-                        />
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <h2 className="text-card-foreground">Panic Key</h2>
-                        <Input
-                          className="max-w-[20rem] text-card-foreground placeholder:text-card-foreground/55"
-                          placeholder="example.com"
-                          value={settingsStore.panicKey}
-                          onChange={(e) => settingsStore.setPKey(e.target.value)}
-                        />
-                      </div>
+                  <div className="flex flex-col space-y-2">
+                    <h1 className="text-card-foreground text-2xl">
+                      Panic Settings
+                    </h1>
+                    <div className="flex items-center justify-between">
+                      <h2 className="text-card-foreground">Panic Link</h2>
+                      <Input
+                        className="max-w-[20rem] text-card-foreground placeholder:text-card-foreground/55"
+                        placeholder="example.com"
+                        value={settingsStore.panicLink}
+                        onChange={(e) => settingsStore.setPLink(e.target.value)}
+                      />
                     </div>
+                    <div className="flex items-center justify-between">
+                      <h2 className="text-card-foreground">Panic Key</h2>
+                      <Input
+                        className="max-w-[20rem] text-card-foreground placeholder:text-card-foreground/55"
+                        placeholder="example.com"
+                        value={settingsStore.panicKey}
+                        onChange={(e) => settingsStore.setPKey(e.target.value)}
+                      />
+                    </div>
+                  </div>
                   <Separator />
                   {/* settings for wisp */}
                   <div className="flex flex-col space-y-2">
@@ -414,27 +414,35 @@ const Navbar = () => {
                         onValueChange={(transport: "libcurl" | "epoxy") => {
                           const newTransport = {
                             name: transport,
-                            path: transport === "libcurl" ? "/libcurl/index.mjs" : "/epoxy/index.mjs",
-                          }
-                          window.Connection.setTransport(newTransport.path, [ {
-                            wisp: `${location.port == "443" ? "wss://" : "ws://"}${location.host}/w/`
-                          }])
-                          settingsStore.setTransport(newTransport.path, newTransport.name)
-
-                        }
-                        }
+                            path:
+                              transport === "libcurl"
+                                ? "/libcurl/index.mjs"
+                                : "/epoxy/index.mjs",
+                          };
+                          window.Connection.setTransport(newTransport.path, [
+                            {
+                              wisp: `${
+                                location.port == "443" ? "wss://" : "ws://"
+                              }${location.host}/w/`,
+                            },
+                          ]);
+                          settingsStore.setTransport(
+                            newTransport.path,
+                            newTransport.name
+                          );
+                        }}
                       >
                         <SelectTrigger className="max-w-[20rem] text-card-foreground">
                           <SelectValue className="placeholder:text-card-foreground/55 " />
                         </SelectTrigger>
                         <SelectContent className="text-card-foreground border-none">
-                          <SelectItem value="libcurl" className="cursor-pointer">
-                            Libcurl
-                          </SelectItem>
                           <SelectItem
-                            value="epoxy"
+                            value="libcurl"
                             className="cursor-pointer"
                           >
+                            Libcurl
+                          </SelectItem>
+                          <SelectItem value="epoxy" className="cursor-pointer">
                             Epoxy
                           </SelectItem>
                         </SelectContent>
@@ -498,7 +506,5 @@ const Navbar = () => {
     </header>
   );
 };
-
-
 
 export default Navbar;

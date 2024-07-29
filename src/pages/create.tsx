@@ -1,6 +1,6 @@
 import Navbar from "@/components/ui/navbar";
 import { useCallback, useState } from "react";
-import CodeMirror from "@uiw/react-codemirror";
+// import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { css } from "@codemirror/lang-css";
 import { tokyoNight } from "@uiw/codemirror-theme-tokyo-night";
@@ -15,6 +15,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { usePluginStore } from "@/components/stores";
 import { toast } from "sonner";
+import { lazy } from "react";
+const CodeMirror = lazy(() => import("@uiw/react-codemirror"));
 
 const Create = () => {
   const [code, setCode] = useState("");
