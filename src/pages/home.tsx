@@ -32,6 +32,7 @@ const Home = () => {
       onClick: () =>
         window.open("https://discord.com/invite/n49tTqAuh3", "_blank"),
     },
+    duration: 10000,
   });
 
   return (
