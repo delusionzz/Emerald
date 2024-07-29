@@ -6,14 +6,16 @@ import { useSettingsStore } from "./components/stores";
 import { useSw } from "@/components/hooks";
 import Navbar from "./components/ui/navbar";
 import Home from "./pages/home";
+import PluginPage from "./pages/plugins";
 //import Games from "./pages/games";
 import { useEffect } from "react";
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Create from "./pages/create";
+
 export default function App() {
   useSw("/sw.js");
-  console.log("app");
   const settingsStore = useSettingsStore();
-
 
   useEffect(() => {
     // console.log(window.location === window.parent.location);
@@ -29,13 +31,21 @@ export default function App() {
       window.location.replace("https://google.com");
     }
   }, [settingsStore.cloak]);
+
+  // window.postMessage("Test FROM CLIENT");
+
+  const queryClient = new QueryClient();
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        {/* <Route path="/games" element={<Games />} /> */}
-        <Route path="*" element={<NoMatch />} />
-      </Routes>
+      <QueryClientProvider client={queryClient}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/plugins" element={<PluginPage />} />
+          <Route path="/plugins/create" element={<Create />} />
+          {/* <Route path="/games" element={<Games />} /> */}
+          <Route path="*" element={<NoMatch />} />
+        </Routes>
+      </QueryClientProvider>
       <Toaster />
     </>
   );

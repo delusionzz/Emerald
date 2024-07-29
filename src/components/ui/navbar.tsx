@@ -137,10 +137,10 @@ const Navbar = () => {
           </a>
           <nav className="flex items-center gap-6 text-sm">
             <a
-              href="/games"
+              href="/Plugins"
               className="transition-colors hover:text-foreground/80 text-foreground/60"
             >
-              Games
+              Plugins
             </a>
             <Sheet open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
               <SheetTrigger>

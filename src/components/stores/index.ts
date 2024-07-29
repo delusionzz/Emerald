@@ -1,54 +1,82 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { create } from "zustand";
-import {  persist } from "zustand/middleware";
+import { persist } from "zustand/middleware";
 // import {createStore} from "idb-keyval"
 // const customStore = createStore('Emerald_DB', 'Emerald_Store');
 
-
 interface SettingsState {
-    proxy: "uv";
-    search: string;
-    cloak: "none" | "aboutBlank";
-    title: string;
-    transport: {
-      path: string;
-      name: string;
-    };
-    icon: string;
-    panicLink: string;
-    panicKey: string;
-    setCloak: (str: "none" | "aboutBlank") => void;
-    setTransport: (path: string, name: string) => void;
-    setTitle: (str: string) => void;
-    setIcon: (str: string) => void;
-    setPLink: (str: string) => void;
-    setPKey: (str: string) => void;
+  proxy: "uv";
+  search: string;
+  cloak: "none" | "aboutBlank";
+  title: string;
+  transport: {
+    path: string;
+    name: string;
+  };
+  icon: string;
+  panicLink: string;
+  panicKey: string;
+  setCloak: (str: "none" | "aboutBlank") => void;
+  setTransport: (path: string, name: string) => void;
+  setTitle: (str: string) => void;
+  setIcon: (str: string) => void;
+  setPLink: (str: string) => void;
+  setPKey: (str: string) => void;
 }
 
 export const useSettingsStore = create<SettingsState>()(
   persist(
     (set, _get) => ({
-        proxy: "uv",
-        search: "https://www.google.com/search?q=",
-        cloak: "none",
-        title: "Emerald",
-        transport: {
-          path: "/libcurl/index.mjs",
-          name: "libcurl",
-        },
-        icon: "/emerald.png",
-        panicLink: "https://classroom.google.com",
-        panicKey: "`",
-        setTitle: (str) => set(() => ({ title: str })),
-        setTransport: (path, name) => set(() => ({ transport: {name, path} })),
-        setIcon: (str) => set(() => ({ icon: str })),
-        setCloak: (str) => set(() => ({ cloak: str })),
-        setPLink: (str) => set(() => ({ panicLink: str})),
-        setPKey: (str) => set(() => ({ panicKey: str })),
+      proxy: "uv",
+      search: "https://www.google.com/search?q=",
+      cloak: "none",
+      title: "Emerald",
+      transport: {
+        path: "/libcurl/index.mjs",
+        name: "libcurl",
+      },
+      icon: "/emerald.png",
+      panicLink: "https://classroom.google.com",
+      panicKey: "`",
+      setTitle: (str) => set(() => ({ title: str })),
+      setTransport: (path, name) => set(() => ({ transport: { name, path } })),
+      setIcon: (str) => set(() => ({ icon: str })),
+      setCloak: (str) => set(() => ({ cloak: str })),
+      setPLink: (str) => set(() => ({ panicLink: str })),
+      setPKey: (str) => set(() => ({ panicKey: str })),
     }),
     {
       name: "settings", // name of item in the storage (must be unique)
+    }
+  )
+);
+// name, description, type, target, where, data
+export type Plugin = {
+  id: number;
+  name: string;
+  description: string;
+  type: "script" | "style" | "html";
+  target: string;
+  where: "head" | "body";
+  data: string;
+};
+
+export const usePluginStore = create<{
+  plugins: Plugin[];
+  addPlugin: (plug: Plugin) => void;
+  removePlugin: (id: number) => void;
+}>()(
+  persist(
+    (set, get) => ({
+      plugins: [],
+      addPlugin: (plug: Plugin) =>
+        set(() => ({ plugins: [plug, ...get().plugins] })),
+      removePlugin: (id) =>
+        set(() => ({ plugins: get().plugins.filter((p) => p.id !== id) })),
+    }),
+    {
+      name: "plugins",
     }
   )
 );
@@ -66,33 +94,29 @@ export const useProxiedStore = create<{
 }));
 
 type App = {
-  title: string,
-  description: string,
-  url: string,
-  id: string
-}
-
-
+  title: string;
+  description: string;
+  url: string;
+  id: string;
+};
 
 export const useAppStore = create<{
-  apps: App[],
-  addApp: (app: App) => void,
-  removeApp: (id: string) => void,
+  apps: App[];
+  addApp: (app: App) => void;
+  removeApp: (id: string) => void;
 }>()(
   persist(
     (set, get) => ({
       apps: [],
       addApp: (app) => set(() => ({ apps: [...get().apps, app] })),
-      removeApp: (id) => set(() => ({ apps: get().apps.filter((app) => app.id !== id) })),
+      removeApp: (id) =>
+        set(() => ({ apps: get().apps.filter((app) => app.id !== id) })),
     }),
     {
-      name: "appStore", 
+      name: "appStore",
     }
   )
 );
-
-
-
 
 // type IDBStore = {
 //   bare: string,
@@ -127,9 +151,6 @@ export const useAppStore = create<{
 //     },
 //   ),
 // )
-
-
-
 
 // const storage: StateStorage = {
 //   getItem: async (name: string): Promise<string | null> => {
