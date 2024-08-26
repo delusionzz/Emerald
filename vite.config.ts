@@ -5,7 +5,7 @@ import { baremuxPath } from "@mercuryworkshop/bare-mux/node";
 import { libcurlPath } from "@mercuryworkshop/libcurl-transport";
 //@ts-ignore
 import { epoxyPath } from "@mercuryworkshop/epoxy-transport";
-import { uvPath } from "@titaniumnetwork-dev/ultraviolet";
+const uvPath: string = "public/uv";
 import localForage from "localforage";
 import path from "path";
 const __dirname = path.resolve();
