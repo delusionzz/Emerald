@@ -7,6 +7,7 @@ import { useSw } from "@/components/hooks";
 import Navbar from "./components/ui/navbar";
 import { useEffect, lazy } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import ReactGA from "react-ga4";
 
 const Home = lazy(() => import("./pages/home"));
 const PluginPage = lazy(() => import("./pages/plugins"));
@@ -14,6 +15,8 @@ const Create = lazy(() => import("./pages/create"));
 
 export default function App() {
   useSw("/sw.js");
+  ReactGA.initialize("G-9CYZED8RHV");
+
   const settingsStore = useSettingsStore();
 
   useEffect(() => {
