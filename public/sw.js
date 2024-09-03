@@ -15,7 +15,6 @@ uv = new UVServiceWorker();
 self.addEventListener("message", (event) => {
   // console.log(`Message received: ${event.data}`);
   const list = JSON.parse(event.data);
-  console.log(list);
   self.__uv$config.inject = [];
   list.map((plug) => {
     self.__uv$config.inject.push({
@@ -24,7 +23,6 @@ self.addEventListener("message", (event) => {
       injectTo: plug.where,
     });
   });
-  console.log(self.__uv$config);
 });
 
 self.addEventListener("fetch", (event) => {

@@ -26,15 +26,17 @@ const Home = () => {
 
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm]);
-  toast.success("Want more links? Join our discord server for BYOD links!", {
-    action: {
-      label: "Join Server",
-      onClick: () =>
-        window.open("https://discord.com/invite/n49tTqAuh3", "_blank"),
-    },
-    duration: 10000,
-  });
+  useEffect(() => {
+    console.log("toast here");
+  }, []);
+  // toast.success("Want more links? Join our discord server for BYOD links!", {
+  //   action: {
+  //     label: "Join Server",
+  //     onClick: () =>
+  //       window.open("https://discord.com/invite/p8w8neURBb", "_blank"),
+  //   },
 
+  // });
   return (
     <>
       {proxiedStore.proxyString.length > 0 && proxiedStore.isProxied ? (
@@ -96,6 +98,17 @@ const Home = () => {
                     )}
                   </div>
                 )}
+                <p className="text-center text-card-foreground/75">
+                  Want more links? Join our{" "}
+                  <a
+                    className="text-primary"
+                    href="https://discord.com/invite/p8w8neURBb"
+                    target="_blank"
+                  >
+                    discord
+                  </a>{" "}
+                  server for community links
+                </p>
               </div>
               <motion.button
                 whileTap={{

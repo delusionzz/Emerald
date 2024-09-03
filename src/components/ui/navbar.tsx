@@ -88,7 +88,7 @@ const Navbar = () => {
       .querySelector("link[rel='icon']")
       ?.setAttribute(
         "href",
-        settingsStore.icon.length > 0
+        settingsStore.icon.length > 0 && settingsStore.icon !== "/emerald.png"
           ? `https://www.google.com/s2/favicons?domain=${settingsStore.icon}`
           : "/emerald.png"
       );
@@ -160,8 +160,8 @@ const Navbar = () => {
                         Right-Click anywhere to make a custom app
                       </span>{" "}
                       or click the trash can button to{" "}
-                      <span className="text-destructive">Delete</span> a custom
-                      app
+                      <span className="text-destructive font-bold">Delete</span>{" "}
+                      a custom app
                     </SheetDescription>
                   </SheetHeader>
                   <ContextMenu>
@@ -275,7 +275,7 @@ const Navbar = () => {
             </Sheet>
 
             <a
-              href="https://discord.com/invite/n49tTqAuh3"
+              href="https://discord.com/invite/p8w8neURBb"
               target="_blank"
               className="transition-colors hover:text-foreground/80 text-foreground/60"
             >
@@ -308,7 +308,7 @@ const Navbar = () => {
             <DialogTrigger>
               <TooltipProvider>
                 <Tooltip>
-                  <TooltipTrigger>
+                  <TooltipTrigger asChild>
                     <button className="bg-card p-2 rounded-md transition-colors hover:text-foreground/80 text-foreground/60 shadow-lg hover:shadow-card ">
                       <Cog />
                     </button>
@@ -497,7 +497,11 @@ const Navbar = () => {
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit" onClick={handleCreateApp}>
+            <Button
+              type="submit"
+              onClick={handleCreateApp}
+              className="text-muted"
+            >
               Save changes
             </Button>
           </DialogFooter>

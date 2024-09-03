@@ -23,7 +23,7 @@ const useSw = (path: string) => {
             }/w/`,
           },
         ]);
-        console.log("sending", JSON.stringify(pluginStore.plugins));
+        // console.log("sending", JSON.stringify(pluginStore.plugins));
         registration.active?.postMessage(JSON.stringify(pluginStore.plugins));
       });
       navigator.serviceWorker.register(path).then(

@@ -22,7 +22,7 @@ export default defineConfig({
           overwrite: false,
         },
         {
-          src: `${uvPath}/**/*`.replace(/\\/g, "/"),
+          src: `/home/illusions/ultraviolet/dist/**/*`.replace(/\\/g, "/"),
           dest: "uv",
           overwrite: false,
         },
